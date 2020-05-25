@@ -1,12 +1,24 @@
+import config from './config';
 import * as express from 'express';
-import { Request, Response } from 'express';
+import routes from './routes/index';
+import * as morgan from 'morgan';
+import * as helmet from 'helmet'; // Security
+
+const PORT = config.port || 3000;
 const app = express();
-const { PORT = 3000 } = process.env;
-app.get('/', (req: Request, res: Response) => {
-  res.send({
-    message: 'Ciao 3 world',
-  });
-});
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+if (config.enableAccessLogs) {
+  app.use(morgan('tiny'));
+}
+app.use(helmet());
+
+app.use(express.static('public'));
+
+routes(app);
+
 app.listen(PORT, () => {
   console.log('server started at http://localhost:' + PORT);
 });

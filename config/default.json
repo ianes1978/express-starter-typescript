@@ -1,0 +1,5 @@
+{
+  "name": "My Test NodeJs/Express App 2",
+  "mail": { "host": "www.asd.it" },
+  "port": 3000
+}
